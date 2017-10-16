@@ -12,8 +12,6 @@
 
 ### Готовый [APK](/blob/master/files/Password%20Keyboard.apk)
 
-<br/>
-
 ### Links (4PDA)
 - [Клавиатура от Julia Mlinnik](http://4pda.ru/forum/index.php?showtopic=311777)<br/>
 - [Клавиатура на 4PDA](http://4pda.ru/forum/index.php?showtopic=848778)
