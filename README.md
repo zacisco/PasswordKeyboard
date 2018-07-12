@@ -8,7 +8,7 @@
 ### Требования:
 - Android 5.0 (API 21+)
 
-# Обновления:
+### Обновления:
 v1.1
 - Добавлен символ _
 
@@ -19,4 +19,3 @@ v1.1
 ### Links (4PDA)
 - [Клавиатура от Julia Mlinnik](http://4pda.ru/forum/index.php?showtopic=311777)<br/>
 - [Клавиатура на 4PDA](http://4pda.ru/forum/index.php?showtopic=848778)
-
