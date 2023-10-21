@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
 
+import java.util.Objects;
+
 /**
  * Created by zac on 12.10.17.
  */
@@ -18,6 +20,8 @@ public class pswdKb extends InputMethodService implements KeyboardView.OnKeyboar
 	private boolean isCapsOn = false;
 	private KEYS_TYPE mCurrentLocale;
 	private InputMethodManager inputMethodManager;
+	private int pushCount = 0;
+	private Keyboard.Key shiftKey = null;
 
 	private enum KEYS_TYPE {
 		SYMBOLS, ENGLISH
@@ -25,7 +29,7 @@ public class pswdKb extends InputMethodService implements KeyboardView.OnKeyboar
 
 	@Override
 	public View onCreateInputView() {
-		inputMethodManager = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
+		inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
 		mKeyboardView = (KeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
 		mCurrentLocale = KEYS_TYPE.ENGLISH;
 		mKeyboard = getKeyboard(mCurrentLocale);
@@ -36,18 +40,22 @@ public class pswdKb extends InputMethodService implements KeyboardView.OnKeyboar
 	}
 
 	private Keyboard getKeyboard(KEYS_TYPE locale) {
-		switch (locale) {
-			case SYMBOLS:
-				return new Keyboard(this, R.xml.keys_definition_symols);
-			default:
-				return new Keyboard(this, R.xml.keys_definition);
+		if (Objects.requireNonNull(locale) == KEYS_TYPE.SYMBOLS) {
+			return new Keyboard(this, R.xml.keys_definition_symols);
 		}
+		return new Keyboard(this, R.xml.keys_definition);
 	}
 
-	private void handleShift() {
-		isCapsOn = !isCapsOn;
+	private void handleShift(boolean capsOn) {
+		isCapsOn = capsOn;
 		mKeyboard.setShifted(isCapsOn);
 		mKeyboardView.invalidateAllKeys();
+	}
+
+	private void resetShift() {
+		shiftKey.icon = getResources().getDrawable(R.drawable.ic_upper_24dp);
+		pushCount = 0;
+		handleShift(false);
 	}
 
 	private void handleLanguageSwitch() {
@@ -92,7 +100,24 @@ public class pswdKb extends InputMethodService implements KeyboardView.OnKeyboar
 					ic.deleteSurroundingText(1, 0);
 					break;
 				case Keyboard.KEYCODE_SHIFT:
-					handleShift();
+					if (shiftKey == null) {
+						shiftKey = mKeyboard.getKeys().get(mKeyboard.getShiftKeyIndex());
+					}
+					switch (pushCount) {
+						case 0:
+							pushCount++;
+							shiftKey.icon = getResources().getDrawable(R.drawable.ic_upper_tmp_24dp);
+							handleShift(true);
+							shiftKey.on = false;
+							break;
+						case 1:
+							pushCount++;
+							shiftKey.icon = getResources().getDrawable(R.drawable.ic_upper_24dp);
+							handleShift(true);
+							break;
+						default:
+							resetShift();
+					}
 					break;
 				case Keyboard.KEYCODE_DONE:
 					ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER));
@@ -105,21 +130,33 @@ public class pswdKb extends InputMethodService implements KeyboardView.OnKeyboar
 					break;
 				default:
 					char code = (char) primaryCode;
-					if (Character.isLetter(code) && isCapsOn)
+					if (Character.isLetter(code) && isCapsOn) {
 						code = Character.toUpperCase(code);
-
+						if (pushCount == 1) {
+							resetShift();
+						}
+					}
 					ic.commitText(String.valueOf(code), 1);
-					break;
 			}
 		}
 	}
 
 	@Override
 	public void onPress(int primaryCode) {
+		switch (primaryCode) {
+			case Keyboard.KEYCODE_DELETE:
+			case Keyboard.KEYCODE_SHIFT:
+			case Keyboard.KEYCODE_DONE:
+			case Keyboard.KEYCODE_ALT:
+			case Keyboard.KEYCODE_MODE_CHANGE:
+				mKeyboardView.setPreviewEnabled(false);
+				break;
+		}
 	}
 
 	@Override
 	public void onRelease(int primaryCode) {
+		mKeyboardView.setPreviewEnabled(true);
 	}
 
 	@Override
@@ -143,8 +180,12 @@ public class pswdKb extends InputMethodService implements KeyboardView.OnKeyboar
 					text = ">";
 				else
 					text = String.valueOf(Character.toUpperCase(text.charAt(0)));
+
+				if (pushCount == 1) {
+					resetShift();
+				}
 			}
-			ic.commitText(text, 0);
+			ic.commitText(text, 1);
 		}
 	}
 

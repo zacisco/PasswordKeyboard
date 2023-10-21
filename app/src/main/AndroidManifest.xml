@@ -1,5 +1,4 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-		  package="com.zac.pswdKb">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
 	<application
 		android:icon="@mipmap/ic_launcher"
@@ -7,7 +6,8 @@
 
 		<service android:name=".pswdKb"
 				 android:label="Password Keyboard"
-				 android:permission="android.permission.BIND_INPUT_METHOD">
+				 android:permission="android.permission.BIND_INPUT_METHOD"
+        		android:exported="true">
 			<meta-data android:name="android.view.im" android:resource="@xml/method"/>
 			<intent-filter>
 				<action android:name="android.view.InputMethod"/>
@@ -15,5 +15,4 @@
 		</service>
 
 	</application>
-
 </manifest>
