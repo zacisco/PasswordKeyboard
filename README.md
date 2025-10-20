@@ -13,7 +13,7 @@ v1.3
 - Обновление версий SDK,Gradle (+AGP),перевод конфигураций на kts-файлы
 - Добавил кнопки - и = после цифр в буквенной клавиатуре
 - Добавил перевод в символы из цифр в буквенной клавиатуре
-- *Обновил подпись (нужна будет переустановка)
+- <ins>**Обновил подпись (нужна будет переустановка)**</ins>
 
 v1.2
 - Обновление версий SDK и Gradle (+AGP)
@@ -23,9 +23,9 @@ v1.2
 v1.1
 - Добавлен символ _
 
-### [Скрины](/tree/master/files/screenshots)
+### [Скрины](/files/screenshots)
 
-### Готовый [APK](/blob/master/files/Password%20Keyboard.apk)
+### Готовый [APK](/files/Password%20Keyboard.apk)
 
 ### Links (4PDA)
 - [Клавиатура от Julia Mlinnik](https://4pda.to/forum/index.php?showtopic=311777)<br/>
