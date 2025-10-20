@@ -130,8 +130,38 @@ public class pswdKb extends InputMethodService implements KeyboardView.OnKeyboar
 					break;
 				default:
 					char code = (char) primaryCode;
-					if (Character.isLetter(code) && isCapsOn) {
-						code = Character.toUpperCase(code);
+					if (isCapsOn) {
+						if (Character.isLetter(code)) {
+							code = Character.toUpperCase(code);
+						} else if (mCurrentLocale != KEYS_TYPE.SYMBOLS) {
+							if (Character.isDigit(code)) {
+								if (code == '1')
+									code = 33;
+								else if (code == '2') {
+									code = 64;
+								} else if (code == '3') {
+									code = 35;
+								} else if (code == '4') {
+									code = 36;
+								} else if (code == '5') {
+									code = 37;
+								} else if (code == '6') {
+									code = 38;
+								} else if (code == '7') {
+									code = 42;
+								} else if (code == '8') {
+									code = 94;
+								} else if (code == '9') {
+									code = 40;
+								} else if (code == '0') {
+									code = 41;
+								}
+							} else if (code == '-') {
+								code = 95;
+							} else if (code == '=') {
+								code = 43;
+							}
+						}
 						if (pushCount == 1) {
 							resetShift();
 						}

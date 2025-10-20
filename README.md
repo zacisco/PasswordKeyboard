@@ -9,6 +9,12 @@
 - Android 5.0 (API 21+)
 
 ### Обновления:
+v1.3
+- Обновление версий SDK,Gradle (+AGP),перевод конфигураций на kts-файлы
+- Добавил кнопки - и = после цифр в буквенной клавиатуре
+- Добавил перевод в символы из цифр в буквенной клавиатуре
+- *Обновил подпись (нужна будет переустановка)
+
 v1.2
 - Обновление версий SDK и Gradle (+AGP)
 - Fix: при вводе символов курсор оставался на месте
@@ -22,5 +28,5 @@ v1.1
 ### Готовый [APK](/blob/master/files/Password%20Keyboard.apk)
 
 ### Links (4PDA)
-- [Клавиатура от Julia Mlinnik](http://4pda.ru/forum/index.php?showtopic=311777)<br/>
-- [Клавиатура на 4PDA](http://4pda.ru/forum/index.php?showtopic=848778)
+- [Клавиатура от Julia Mlinnik](https://4pda.to/forum/index.php?showtopic=311777)<br/>
+- [Клавиатура на 4PDA](https://4pda.to/forum/index.php?showtopic=848778)
