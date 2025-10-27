@@ -136,30 +136,30 @@ public class pswdKb extends InputMethodService implements KeyboardView.OnKeyboar
 						} else if (mCurrentLocale != KEYS_TYPE.SYMBOLS) {
 							if (Character.isDigit(code)) {
 								if (code == '1')
-									code = 33;
+									code = '!';
 								else if (code == '2') {
-									code = 64;
+									code = '@';
 								} else if (code == '3') {
-									code = 35;
+									code = '#';
 								} else if (code == '4') {
-									code = 36;
+									code = '$';
 								} else if (code == '5') {
-									code = 37;
+									code = '%';
 								} else if (code == '6') {
-									code = 38;
+									code = '^';
 								} else if (code == '7') {
-									code = 42;
+									code = '&';
 								} else if (code == '8') {
-									code = 94;
+									code = '*';
 								} else if (code == '9') {
-									code = 40;
+									code = '(';
 								} else if (code == '0') {
-									code = 41;
+									code = ')';
 								}
 							} else if (code == '-') {
-								code = 95;
+								code = '_';
 							} else if (code == '=') {
-								code = 43;
+								code = '+';
 							}
 						}
 						if (pushCount == 1) {
