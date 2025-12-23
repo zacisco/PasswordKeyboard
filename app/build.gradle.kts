@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
 }
 
+val appName = "PasswordKeyboard"
 val javaVer = 11
 
 java {
@@ -18,8 +19,10 @@ android {
         applicationId = "com.zac.passwordkeyboard"
         minSdk = 21
         targetSdk = 36
-        versionCode = 3
-        versionName = "1.3.1"
+        versionCode = 5
+        versionName = "1.3.2"
+        base.archivesName = "${appName}_${versionName}"
+
         testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
     }
 
@@ -29,7 +32,7 @@ android {
     }
 
     buildTypes {
-        release {
+        getByName("release") {
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
