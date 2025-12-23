@@ -1,18 +1,21 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-	<application
-		android:icon="@mipmap/ic_launcher"
-		android:label="Password Keyboard">
+    <application
+        android:icon="@mipmap/ic_launcher"
+        android:label="Password Keyboard">
 
-		<service android:name=".pswdKb"
-				 android:label="Password Keyboard"
-				 android:permission="android.permission.BIND_INPUT_METHOD"
-        		android:exported="true">
-			<meta-data android:name="android.view.im" android:resource="@xml/method"/>
-			<intent-filter>
-				<action android:name="android.view.InputMethod"/>
-			</intent-filter>
-		</service>
+        <service
+            android:name=".pswdKb"
+            android:exported="true"
+            android:label="Password Keyboard"
+            android:permission="android.permission.BIND_INPUT_METHOD">
+            <meta-data
+                android:name="android.view.im"
+                android:resource="@xml/method" />
+            <intent-filter>
+                <action android:name="android.view.InputMethod" />
+            </intent-filter>
+        </service>
 
-	</application>
+    </application>
 </manifest>

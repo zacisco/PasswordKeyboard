@@ -23,5 +23,8 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
-#-keep class com.zac.** { *; }
+
+#-keep class android.inputmethodservice.** { *; }
+#-keep class android.inputmethodservice.Keyboard** { *; }
+
 #-keep class com.zac.pswdKb.pswdKb { *; }
