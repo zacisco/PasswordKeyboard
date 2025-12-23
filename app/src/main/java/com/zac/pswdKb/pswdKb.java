@@ -64,8 +64,8 @@ public class pswdKb extends InputMethodService implements KeyboardView.OnKeyboar
     public View onCreateInputView() {
         mKeyboardView = (KeyboardView) getLayoutInflater().inflate(R.layout.keyboard, null);
         mKeyboard = getKeyboard(mCurrentLocale);
-        setShiftKey();
         mKeyboardView.setKeyboard(mKeyboard);
+        updateShiftKey(shiftState);
         mKeyboardView.setOnKeyboardActionListener(this);
         mKeyboardView.setPreviewEnabled(false);
         return mKeyboardView;
@@ -111,7 +111,7 @@ public class pswdKb extends InputMethodService implements KeyboardView.OnKeyboar
                 text = String.valueOf(Character.toUpperCase(text.charAt(0)));
             }
             if (shiftState == ShiftState.SHIFTED_ONCE) {
-                resetShift();
+                updateShiftKey(ShiftState.OFF);
             }
         }
         ic.commitText(text, 1);
@@ -150,7 +150,7 @@ public class pswdKb extends InputMethodService implements KeyboardView.OnKeyboar
                 code = SHIFT_MAP.get(code);
             }
             if (shiftState == ShiftState.SHIFTED_ONCE) {
-                resetShift();
+                updateShiftKey(ShiftState.OFF);
             }
         }
         ic.commitText(String.valueOf(code), 1);
@@ -164,47 +164,36 @@ public class pswdKb extends InputMethodService implements KeyboardView.OnKeyboar
     private void handleShiftKey() {
         switch (shiftState) {
             case OFF:
-                shiftState = ShiftState.SHIFTED_ONCE;
-                shiftKey.icon = getResources().getDrawable(getShiftIcon());
-                shiftKey.on = false;
+                updateShiftKey(ShiftState.SHIFTED_ONCE);
                 break;
             case SHIFTED_ONCE:
-                shiftState = ShiftState.CAPS_LOCK;
+                updateShiftKey(ShiftState.CAPS_LOCK);
                 break;
             default:
-                resetShift();
+                updateShiftKey(ShiftState.OFF);
         }
-        mKeyboard.setShifted(shiftState != ShiftState.OFF);
-        mKeyboardView.invalidateAllKeys();
     }
 
     private void handleSymbolsSwitch() {
         mCurrentLocale = mCurrentLocale == KEYS_TYPE.SYMBOLS ? KEYS_TYPE.ENGLISH : KEYS_TYPE.SYMBOLS;
         mKeyboard = getKeyboard(mCurrentLocale);
-
-        setShiftKey();
-        resetShift();
-
         mKeyboardView.setKeyboard(mKeyboard);
-        mKeyboardView.invalidateAllKeys();
+        updateShiftKey(ShiftState.OFF);
     }
 
-    private void setShiftKey() {
+    private void updateShiftKey(ShiftState state) {
         int shiftIndex = mKeyboard.getShiftKeyIndex();
         shiftKey = shiftIndex >= 0 ? mKeyboard.getKeys().get(shiftIndex) : null;
-    }
-
-    private void resetShift() {
         if (shiftKey == null) return;
 
-        shiftState = ShiftState.OFF;
-        shiftKey.icon = getResources().getDrawable(getShiftIcon());
-        mKeyboard.setShifted(false);
+        shiftState = state;
+        shiftKey.icon = getResources().getDrawable(
+                shiftState == ShiftState.OFF
+                        ? R.drawable.ic_upper_24dp
+                        : R.drawable.ic_upper_tmp_24dp);
+        mKeyboard.setShifted(shiftState != ShiftState.OFF);
+        shiftKey.on = shiftState == ShiftState.CAPS_LOCK;
         mKeyboardView.invalidateAllKeys();
-    }
-
-    private int getShiftIcon() {
-        return shiftState == ShiftState.OFF ? R.drawable.ic_upper_24dp : R.drawable.ic_upper_tmp_24dp;
     }
 
     private Keyboard getKeyboard(KEYS_TYPE type) {
